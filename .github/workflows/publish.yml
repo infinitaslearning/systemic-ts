@@ -15,51 +15,8 @@ on:
 
 jobs:
   build_and_publish:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout 💼
-        uses: actions/checkout@v4
-
-      - name: Install Node.js 🧩
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Check for critical vulnerabilities 🔎
-        run: npm audit --audit-level critical --omit=dev
-
-      - name: Install dependencies 📦
-        run: npm ci
-
-      - name: Run tests 🧪
-        run: npm test
-
-      - name: Build 🏗️
-        run: npm run build
-
-      - name: Add license notice 📜
-        run: npm run license
-
-      - name: Bump version 📈
-        id: version
-        run: |
-          git config --local user.email "github@teunmooij.com"
-          git config --local user.name "GitHub Action"
-          NEW_VERSION=$(npm version ${{ inputs.version }} --message $'Update version to %s\n\nAutomated version bump by GitHub Action.')
-          git push --follow-tags --no-verify
-          echo "new-version=${NEW_VERSION}" >> $GITHUB_OUTPUT
-        if: inputs.version && inputs.version != 'none'
-
-      - name: Set up NPM 🔑
-        run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
-
-      - name: Publish 🚀
-        run: npm publish --access public
-
-      - name: Create release ⛩️
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.version.outputs.new-version }}
+    uses: infinitaslearning/workflow-publish-public-module/.github/workflows/publish-module.yaml@v1
+    with:
+      version: ${{ inputs.version }}
+    secrets: 
+      NPMJS_ILPT_PUBLISH: ${{ secrets.NPMJS_ILPT_PUBLISH }}

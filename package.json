@@ -1,6 +1,6 @@
 {
-  "name": "systemic-ts",
-  "version": "1.0.0",
+  "name": "@ilpt/systemic-ts",
+  "version": "0.0.0",
   "description": "A minimal type-safe dependency injection library",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
@@ -50,7 +50,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/teunmooij/systemic-ts.git"
+    "url": "git+https://github.com/infinitaslearning/systemic-ts.git"
   },
   "keywords": [
     "dependency",
@@ -65,9 +65,9 @@
   "author": "Teun Mooij (https://github.com/teunmooij)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/teunmooij/systemic-ts/issues"
+    "url": "https://github.com/infinitaslearning/systemic-ts/issues"
   },
-  "homepage": "https://github.com/teunmooij/systemic-ts#readme",
+  "homepage": "https://github.com/infinitaslearning/systemic-ts#readme",
   "dependencies": {
     "@types/toposort": "^2.0.7",
     "debug": "^4.3.5",

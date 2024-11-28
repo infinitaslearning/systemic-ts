@@ -1,18 +1,18 @@
-# systemic-ts
+# @ilpt/systemic-ts
 
 A minimal type-safe dependency injection library, based on and compatible with [systemic](https://www.npmjs.com/package/systemic).
 
 ## Installation
 
 ```shell
-$ npm install systemic-ts
+$ npm install @ilpt/systemic-ts
 ```
 ## tl;dr
 
 ### Define the system
 
 ```typescript
-import { systemic } from 'systemic-ts';
+import { systemic } from '@ilpt/systemic-ts';
 import initConfig from './components/config';
 import initLogger from './components/logger';
 import initMongo from './components/mongo';
@@ -55,12 +55,12 @@ Node.js applications tend to be small and have few layers than applications deve
 
 However when writing microservices the life cycle of an application and its dependencies is a nuisance to manage over and over again. We want a way to consistently express that our service should establish database connections before listening for http requests, and shutdown those connections only after it had stopped listening. We find that before doing anything we need to load config from remote sources, and configure loggers. This is why one uses DI.
 
-The journey that led to [systemic-ts](https://www.npmjs.com/package/systemic-ts) started with a dependency injection framework called [electrician](https://www.npmjs.com/package/electrician) by our friends at Tes. It served its purpose well, but the API had a couple of limitations that they wanted to fix. This would have required a backwards incompatible change, so instead a new DI library was written - [systemic](https://www.npmjs.com/package/systemic). In late 2021 an attempt was made to add typescript definitions, but the types where incomplete and difficult to debug. This is why we decided to completely re-write the library in typescript, mostly compatible with it's predecessor, but fully type safe - [systemic-ts](https://www.npmjs.com/package/systemic-ts).
+The journey that led to [@ilpt/systemic-ts](https://www.npmjs.com/package/@ilpt/systemic-ts) started with a dependency injection framework called [electrician](https://www.npmjs.com/package/electrician) by our friends at Tes. It served its purpose well, but the API had a couple of limitations that they wanted to fix. This would have required a backwards incompatible change, so instead a new DI library was written - [systemic](https://www.npmjs.com/package/systemic). In late 2021 an attempt was made to add typescript definitions, but the types where incomplete and difficult to debug. This is why [Teun Mooij](https://github.com/teunmooij) decided to completely re-write the library in typescript, mostly compatible with it's predecessor, but fully type safe, which we adopted at [Infinitas Learning](https://github.com/infinitaslearning) - [@ilpt/systemic-ts](https://www.npmjs.com/package/@ilpt/systemic-ts).
 
 
 ## Concepts
 
-Systemic-ts has 4 main concepts
+`@ilpt/systemic-ts` has 4 main concepts
 
 1. Systems
 1. Runners
@@ -69,10 +69,10 @@ Systemic-ts has 4 main concepts
 
 ### Systems
 
-You add components and their dependencies to a system. When you start the system, systemic-ts iterates through all the components, starting them in the order derived from the dependency graph. When you stop the system, systemic-ts iterates through all the components stopping them in the reverse order.
+You add components and their dependencies to a system. When you start the system, `@ilpt/systemic-ts` iterates through all the components, starting them in the order derived from the dependency graph. When you stop the system, `@ilpt/systemic-ts` iterates through all the components stopping them in the reverse order.
 
 ```typescript
-import { systemic } from 'systemic-ts';
+import { systemic } from '@ilpt/systemic-ts';
 import initConfig from './components/config';
 import initLogger from './components/logger';
 import initMongo from './components/mongo';
@@ -140,10 +140,10 @@ start();
 
 There are some out of the box runners that can be used in your applications or as a reference for your own custom runner
 
-1. [Service Runner](https://npmjs.com/package/systemic-ts-service-runner)
+1. [Service Runner](https://npmjs.com/package/@ilpt/systemic-ts-service-runner)
 
 ```typescript
-import { runner } from 'systemic-ts-service-runner';
+import { runner } from '@ilpt/systemic-ts-service-runner';
 
 import system from './system';
 
@@ -184,7 +184,7 @@ const system = systemic().add('mongo', initMongo());
 
 The components stop function is useful for when you want to disconnect from an external service or release some other kind of resource.
 
-`systemic-ts` supports multiple types of components:
+`@ilpt/systemic-ts` supports multiple types of components:
 
 #### (A)synchronous components
 
@@ -228,11 +228,11 @@ const system = systemic().add('booksDomain', booksDomain)
 
 #### Callback components
 
-Support for callback components has been dropped in `systemic-ts` in favor of synchronous components. To maintain backwards compatibility with existing components written for legacy `systemic`, `systemic-ts` includes a migration helper to convert them into asynchronous components.
+Support for callback components has been dropped in `@ilpt/systemic-ts` in favor of synchronous components. To maintain backwards compatibility with existing components written for legacy `systemic`, `@ilpt/systemic-ts` includes a migration helper to convert them into asynchronous components.
 
 ```typescript
 import initRabbit from 'systemic-rabbitmq';
-import { promisifyComponent } from 'systemic-ts/migrate';
+import { promisifyComponent } from '@ilpt/systemic-ts/migrate';
 
 const system = systemic().add('rabbit', promisifyComponent(initRabbit()));
 ```
@@ -242,7 +242,7 @@ const system = systemic().add('rabbit', promisifyComponent(initRabbit()));
 A component's dependencies must be registered with the system
 
 ```typescript
-import { systemic } from 'systemic-ts';
+import { systemic } from '@ilpt/systemic-ts';
 import initConfig from './components/config';
 import initLogger from './components/logger';
 import initMongo from './components/mongo';
@@ -283,7 +283,7 @@ const system = systemic()
 ```
 
 Now `config.mongo` will be injected as `config` instead of the entire configuration object.
-Because of the way typescript narrowing of object properties works, mappings need to be added as constants. Otherwise `systemic-ts` is not able to validate the dependency.
+Because of the way typescript narrowing of object properties works, mappings need to be added as constants. Otherwise `@ilpt/systemic-ts` is not able to validate the dependency.
 
 #### Scoped Dependencies
 
@@ -328,7 +328,7 @@ import system from '../src/system';
 const testSystem = system().remove('server');
 ```
 
-`systemic-ts` does not allow you to delete components that other components depend on.
+`@ilpt/systemic-ts` does not allow you to delete components that other components depend on.
 
 ### Including components from another system
 
@@ -336,7 +336,7 @@ You can simplify large systems by breaking them up into smaller ones, then inclu
 
 ```typescript
 // db-system.ts
-import { systemic } from 'systemic-ts';
+import { systemic } from '@ilpt/systemic-ts';
 import initMongo from './components/mongo';
 
 type DependenciesFromMaster = {
@@ -353,7 +353,7 @@ export function initDbSystem() {
 
 ```typescript
 // system.ts
-import { systemic } from 'systemic-ts';
+import { systemic } from '@ilpt/systemic-ts';
 import initUtilSystem from './util-system';
 import initWebSystem from './web-system';
 import initDbSystem from './db-system';
@@ -403,7 +403,7 @@ You can debug systemic by setting the DEBUG environment variable to `systemic:*`
 
 ```typescript
 // system.ts
-import { systemic } from 'systemic-ts';
+import { systemic } from '@ilpt/systemic-ts';
 import initRoutes from './routes';
 
 const system = systemic({ name: 'server' })
@@ -412,7 +412,7 @@ const system = systemic({ name: 'server' })
 
 ```typescript
 // routes/index.ts
-import { systemic } from 'systemic-ts';
+import { systemic } from '@ilpt/systemic-ts';
 import adminRoutes from './admin-routes';
 import apiRoutes from './api-routes';
 
@@ -445,18 +445,18 @@ systemic:index Injecting dependency routes as routes into server +1ms
 systemic:index System server started +15ms
 ```
 
-## Migration from Systemic to Systemic-ts
+## Migration from Systemic to @ilpt/systemic-ts
 
-Since `systemic-ts` is mostly compatible with `systemic`, you can migrate your existing `systemic` service to `systemic-ts` with minimal effort.
+Since `@ilpt/systemic-ts` is mostly compatible with `systemic`, you can migrate your existing `systemic` service to `@ilpt/systemic-ts` with minimal effort.
 
 ### Compatibility
 
-`systemic-ts` is mostly compatible with `systemic`. The differences are:
+`@ilpt/systemic-ts` is mostly compatible with `systemic`. The differences are:
 - the main `systemic` export is now a named export, for better esm vs commonjs compatibility
 - the `bootstrap` function has been removed, since it was not type safe
-- `systemic-ts` does not support callback components, but includes a migration helper to convert them to asynchronous components
+- `@ilpt/systemic-ts` does not support callback components, but includes a migration helper to convert them to asynchronous components
 - the `start` and `stop` functions of the system now return a promise, instead of taking a callback. To maintain compatibility with existing runners, a migration helper is included to convert the system to a callback based system. 
-- `systemic` subsystems need to be converted to `systemic-ts` systems with the included migration helper, before they can be included in a `systemic-ts` system.
+- `systemic` subsystems need to be converted to `@ilpt/systemic-ts` systems with the included migration helper, before they can be included in a `@ilpt/systemic-ts` system.
 
 ### Available migration helpers
 
@@ -466,7 +466,7 @@ When using a callback component, it's best to convert them to an asynchronous co
 
 ```typescript
 import initRabbit from 'systemic-rabbitmq';
-import { promisifyComponent } from 'systemic-ts/migrate';
+import { promisifyComponent } from '@ilpt/systemic-ts/migrate';
 
 const system = systemic().add('rabbit', promisifyComponent(initRabbit()));
 ```
@@ -476,7 +476,7 @@ const system = systemic().add('rabbit', promisifyComponent(initRabbit()));
 If you're using a runner that expects a callback based system, you can use the `asCallbackSystem` helper to convert the system to a callback based system.
 
 ```typescript
-import { asCallbackSystem } from 'systemic-ts/migrate';
+import { asCallbackSystem } from '@ilpt/systemic-ts/migrate';
 import runner from 'systemic-service-runner';
 
 import { initSystem } from './system';
@@ -489,10 +489,10 @@ runner(asCallbackSystem(initSystem())).start((err, components) => {
 
 #### Upgrade a (sub)system
 
-If you have a `systemic` subsystem that you want to include in a `systemic-ts` system, you can use the `upgradeSystem` helper to convert the subsystem to a `systemic-ts` system.
+If you have a `systemic` subsystem that you want to include in a `@ilpt/systemic-ts` system, you can use the `upgradeSystem` helper to convert the subsystem to a `@ilpt/systemic-ts` system.
 
 ```typescript
-import { upgradeSystem } from 'systemic-ts/migrate';
+import { upgradeSystem } from '@ilpt/systemic-ts/migrate';
 import initSubSystem from 'my-legacy-subsystem';
 
 const system = upgradeSystem(initSubSystem());
@@ -500,8 +500,8 @@ const system = upgradeSystem(initSubSystem());
 
 ### Migration steps
 
-1. Replace all `systemic` imports with `systemic-ts`
+1. Replace all `systemic` imports with `@ilpt/systemic-ts`
 1. Change all callback components to asynchronous components, either by changing the source code or using the `promisifyComponent` helper
-1. If the system includes subsystems that you cannot convert, use the `upgradeSystem` helper to convert them to `systemic-ts` systems.
+1. If the system includes subsystems that you cannot convert, use the `upgradeSystem` helper to convert them to `@ilpt/systemic-ts` systems.
 1. If subsystems are included using the `bootstrap` functions, use the `include` function instead to add them to the main system. 
 1. If you're using a runner that expects a callback based system, choose a different runner or use the `asCallbackSystem` helper to convert the system to a callback based system.

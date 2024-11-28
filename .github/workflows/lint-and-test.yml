@@ -1,20 +1,20 @@
 name: Lint and test
 
 on:
-  pull_request
-  # push:
-  #   branches-ignore:
-  #     - main
+  pull_request:
+  push:
+    branches:
+      - main
 
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "20"
 
       - run: npm ci
 
@@ -23,5 +23,3 @@ jobs:
 
       - name: Run tests and collect coverage
         run: npm run test:coverage
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
