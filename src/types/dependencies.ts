@@ -68,7 +68,7 @@ type ValidateMappingDependency<
   TDependencies extends Record<string, unknown>,
   TMapping extends { component: string; destination: string; source?: string },
 > = IsDestinationOrSourceUnbound<TMapping> extends true
-  ? [DependencyValidationError<string, unknown, unknown>] // Dependency not created as constant
+  ? [DependencyValidationError<string, unknown, unknown>] // Dependency cannot be determined
   : [PropAt<TDependencies, DependencyDestinationOf<TMapping>>] extends [never]
     ? [] // Unexpected dependency
     : [Injected<TSystemic, TCurrent, TMapping>] extends [

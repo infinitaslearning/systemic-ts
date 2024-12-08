@@ -270,7 +270,7 @@ You can rename dependencies passed to a components start function by specifying 
 const system = systemic()
   .add('config', initConfig())
   .add('mongo', initMongo())
-  .dependsOn({ component: 'config', destination: 'options' } as const);
+  .dependsOn({ component: 'config', destination: 'options' });
 ```
 
 If you want to inject a property or subdocument of the dependency thing you can also express this with a dependency mapping
@@ -279,11 +279,10 @@ If you want to inject a property or subdocument of the dependency thing you can 
 const system = systemic()
   .add('config', initConfig())
   .add('mongo', initMongo())
-  .dependsOn({ component: 'config', source: 'mongo' } as const);
+  .dependsOn({ component: 'config', source: 'mongo' });
 ```
 
 Now `config.mongo` will be injected as `config` instead of the entire configuration object.
-Because of the way typescript narrowing of object properties works, mappings need to be added as constants. Otherwise `@ilpt/systemic-ts` is not able to validate the dependency.
 
 #### Scoped Dependencies
 

@@ -1,6 +1,6 @@
 ### What's changed
 
-- No changelog has been added to this release
+- Remove the need for marking a mapping dependency `as const`
 
 ---
 
