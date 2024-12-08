@@ -144,7 +144,7 @@ export type DependsOn<
    * When name and type of the dependencies match those available in the system, the dependency can be added by name.
    * When a dependency is named differently in the system or only part of a component is required as a dependency, a MappingDependsOnOption can be used.
    */
-  dependsOn: <TNames extends DependsOnOption<Omit<TSystemic, TCurrent>>[]>(
+  dependsOn: <const TNames extends DependsOnOption<Omit<TSystemic, TCurrent>>[]>(
     ...names: TNames
   ) => ValidateDependencies<TSystemic, TCurrent, TDependencies, TNames> extends [
     infer First extends DependencyValidationError<any, any, any>,
@@ -171,7 +171,7 @@ export type SystemicWithInvalidDependency<
 > = {
   [X in keyof Systemic<any>]: (
     error: string extends TError[0]
-      ? `Destination of a dependency for component "${TCurrent}" is unknown. Did you neglect to mark it 'as const'?`
+      ? `Destination of a dependency for component "${TCurrent}" is unknown.`
       : `Dependency "${TError[0]}" on component "${TCurrent}" is not of the required type`,
     expected: TError[1],
     actual: TError[2],
@@ -195,7 +195,7 @@ type SystemicBuildDefaultComponent<
    * When name and type of the dependencies match those available in the system, the dependency can be added by name.
    * When a dependency is named differently in the system or only part of a component is required as a dependency, a MappingDependsOnOption can be used.
    */
-  dependsOn: <TNames extends DependsOnOption<Omit<TSystemic, TCurrent>>[]>(
+  dependsOn: <const TNames extends DependsOnOption<Omit<TSystemic, TCurrent>>[]>(
     ...names: TNames
   ) => ValidateDependencies<TSystemic, TCurrent, EmptyObject, TNames> extends [
     infer First extends DependencyValidationError<any, any, any>,

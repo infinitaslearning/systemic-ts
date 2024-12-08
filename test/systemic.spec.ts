@@ -336,7 +336,7 @@ describe("systemic", () => {
     const system = systemic()
       .add("foo", foo)
       .add("bar", bar)
-      .dependsOn({ component: "foo", destination: "baz" } as const);
+      .dependsOn({ component: "foo", destination: "baz" });
 
     await system.start();
 
@@ -349,7 +349,7 @@ describe("systemic", () => {
     const system = systemic()
       .add("foo", foo)
       .add("bar", bar)
-      .dependsOn({ component: "foo", destination: "baz" } as const);
+      .dependsOn({ component: "foo", destination: "baz" });
     await system.start();
     expect(bar.state.dependencies).toEqual({ baz: "foo" });
   });
@@ -359,7 +359,7 @@ describe("systemic", () => {
     const system = systemic()
       .add("foo", foo)
       .add("bar")
-      .dependsOn({ component: "foo", destination: "baz" } as const);
+      .dependsOn({ component: "foo", destination: "baz" });
     const components = await system.start();
     expect(components).toEqual({ foo: "foo", bar: { baz: "foo" } });
   });
@@ -370,7 +370,7 @@ describe("systemic", () => {
     const system = systemic()
       .add("foo", foo)
       .add("bar", bar)
-      .dependsOn({ component: "foo", source: "qux" } as const);
+      .dependsOn({ component: "foo", source: "qux" });
     await system.start();
     expect(bar.state.dependencies).toEqual({ foo: "baz" });
   });
@@ -381,7 +381,7 @@ describe("systemic", () => {
     const system = systemic()
       .add("foo", foo, { scoped: true })
       .add("bar", bar)
-      .dependsOn({ component: "foo", source: "" } as const);
+      .dependsOn({ component: "foo", source: "" });
     await system.start();
     expect(bar.state.dependencies).toEqual({ foo: { qux: "baz" } });
   });

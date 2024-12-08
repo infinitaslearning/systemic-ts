@@ -292,7 +292,7 @@ describe("systemic types", () => {
     const system = mockSystemic()
       .add("foo.bar", { start: async (deps: EmptyObject) => ({ baz: 42 }) })
       .add("qux", { start: async (deps: { baz: { baz: number } }) => 42 })
-      .dependsOn({ component: "foo.bar", destination: "baz" } as const);
+      .dependsOn({ component: "foo.bar", destination: "baz" });
 
     type Registrations = {
       "foo.bar": { component: { baz: number }; scoped: false };
@@ -307,7 +307,7 @@ describe("systemic types", () => {
     const system = mockSystemic()
       .add("foo", { start: async (deps: EmptyObject) => ({ baz: "qux" }) }, { scoped: true })
       .add("bar", { start: async (deps: { foo: { baz: string } }) => 42 })
-      .dependsOn({ component: "foo", source: "" } as const);
+      .dependsOn({ component: "foo", source: "" });
 
     type Registrations = {
       foo: { component: { baz: string }; scoped: true };
@@ -322,7 +322,7 @@ describe("systemic types", () => {
     const system = mockSystemic()
       .add("foo", { start: async (deps: EmptyObject) => ({ baz: "qux" }) }, { scoped: true })
       .add("bar", { start: async (deps: { foo: { baz: string } }) => 42 })
-      .dependsOn({ component: "foo", source: "test123" } as const);
+      .dependsOn({ component: "foo", source: "test123" });
 
     type Registrations = {
       foo: { component: { baz: string }; scoped: true };
@@ -331,44 +331,6 @@ describe("systemic types", () => {
     type Expected = SystemicWithInvalidDependency<"bar", ["foo", { baz: string }, undefined]>;
 
     expectTypes<typeof system, Expected>().toBeEqual();
-  });
-
-  it("is a systemic with a dependency not marked as const", () => {
-    const system = mockSystemic()
-      .add("foo", { start: async (deps: EmptyObject) => ({ bar: "bar" }) })
-      .add("bar", { start: async (deps: { baz: { bar: string } }) => 42 })
-      .dependsOn({ component: "foo", destination: "baz" });
-
-    type Expected = SystemicWithInvalidDependency<"bar", [string, unknown, unknown]>;
-
-    expectTypes<typeof system, Expected>().toBeEqual();
-    expectTypes<
-      (typeof system)["start"],
-      (
-        error: `Destination of a dependency for component "bar" is unknown. Did you neglect to mark it 'as const'?`,
-        expected: unknown,
-        actual: unknown,
-      ) => void
-    >().toBeEqual();
-  });
-
-  it("is a systemic with a dependency on a default component not marked as const", () => {
-    const system = mockSystemic()
-      .add("foo", { start: async (deps: EmptyObject) => ({ bar: "bar" }) })
-      .add("bar")
-      .dependsOn({ component: "foo", destination: "baz" });
-
-    type Expected = SystemicWithInvalidDependency<"bar", [string, unknown, unknown]>;
-
-    expectTypes<typeof system, Expected>().toBeEqual();
-    expectTypes<
-      (typeof system)["start"],
-      (
-        error: `Destination of a dependency for component "bar" is unknown. Did you neglect to mark it 'as const'?`,
-        expected: unknown,
-        actual: unknown,
-      ) => void
-    >().toBeEqual();
   });
 
   it("is a systemic with an injected dependency that extends the expected type", () => {
