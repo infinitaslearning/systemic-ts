@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "@ilpt/systemic-ts"
+  description: A minimal type-safe dependency injection library
+  tags:
+    - systemic
+    - ioc
+    - public
+spec:
+  type: module
+  lifecycle: production
+  owner: shared

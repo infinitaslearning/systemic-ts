@@ -8,3 +8,4 @@ biome.json
 tsconfig.json
 tsup.config.ts
 jest.config.ts
+catalog-info.yaml
