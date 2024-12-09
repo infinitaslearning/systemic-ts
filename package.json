@@ -65,7 +65,7 @@
   "bugs": {
     "url": "https://github.com/infinitaslearning/systemic-ts/issues"
   },
-  "homepage": "https://github.com/infinitaslearning/systemic-ts#readme",
+  "homepage": "https://infinitaslearning.github.io/systemic-ts",
   "dependencies": {
     "@types/toposort": "^2.0.7",
     "debug": "^4.3.5",
