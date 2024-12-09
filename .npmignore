@@ -2,6 +2,7 @@
 .husky/
 scripts/
 test/
+docs/
 
 .eslintcache
 biome.json
