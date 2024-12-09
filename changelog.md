@@ -1,5 +1,11 @@
 ### What's changed
 
+- No changelog has been added to this release
+
+---
+
+### Release v1.1.1 - 2024-12-09 21:02
+
 - Added homepage with documentation
 
 ---
