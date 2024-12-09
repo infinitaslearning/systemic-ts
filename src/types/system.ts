@@ -1,4 +1,5 @@
 import type { Registration } from "./definition";
+import type { Systemic } from "./systemic";
 import type { EmptyObject, SetNestedProp, UnionToTuple } from "./util";
 
 // Build the system type from the system definition
@@ -24,3 +25,17 @@ type BuildSystem<
 export type ComponentsOf<TSystem extends Record<string, Registration>> = {
   [K in keyof TSystem]: TSystem[K]["component"];
 };
+
+/**
+ * Extract the registration type from a Systemic type
+ */
+export type RegistrationsOf<TSystem extends Systemic<any>> = TSystem extends Systemic<infer T>
+  ? T
+  : never;
+
+/**
+ * Extract the component types from a Systemic type
+ */
+export type TypeOf<TSystem extends Systemic<any>> = TSystem extends Systemic<infer T>
+  ? SystemOf<T>
+  : never;

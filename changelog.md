@@ -1,6 +1,7 @@
 ### What's changed
 
 - Remove the need for marking a mapping dependency `as const`
+- Export type helpers to get the registrations and type of the systemic
 
 ---
 
